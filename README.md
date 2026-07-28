@@ -19,7 +19,7 @@ Playwright automation suite built in TS for validating the Phorest gift voucher 
 #### 1. Clone the repository
 
 ```bash
-git clone git@github.com:OOTesting/phorest_QA.git
+git clone https://github.com/OOTesting/phorest_QA.git
 cd phorest-voucher-tests
 ```
 
@@ -61,7 +61,7 @@ npm run report
 
 ## Test Suite Coverage 
 
-- **Page objects**: Located in `pages/`, representing the flow pages (`voucherPage`,'footerPage' `summaryPage`, `paymentPage`, `successPage`) and basePage. 
+- **Page objects**: Located in `pages/`, representing the flow pages (`voucherPage`,`footerPage` `summaryPage`, `paymentPage`, `successPage`) and basePage. 
 - **Test Data**: Test accounts, presets, and card configurations are maintained in `utils/testData.ts`.
 
 Total 20 tests
