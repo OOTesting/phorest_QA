@@ -1,3 +1,5 @@
+
+
 export const buyer = {
   firstName: 'John',
   lastName: 'Jones-Smith',
@@ -5,9 +7,10 @@ export const buyer = {
 };
 
 export const friend = {
-  email: 'john.cena@test.com',
-  message: 'Happy Birthday! Enjoy your day at the salon.',
+  email: 'tony.stark@test.com',
+  message: 'Happy Birthday! <3 Enjoy & relax — you earned it!'
 };
+
 
 export const card = {
   number: '4111 1111 1111 1111',
@@ -17,6 +20,7 @@ export const card = {
 
 export const amounts = {
   fixed: '50',
+  fixed2: '100',
   custom: '65',
   min: '20',
   max: '1000',
@@ -24,7 +28,9 @@ export const amounts = {
   aboveMax: '1001'
 };
 
-// unique email each run so repeated runs don't clash
+// random email 
 export function uniqueEmail(prefix = 'test') {
-  return `${prefix}+${Date.now()}@example.com`;
+  const ts = Date.now();
+  const rand = Math.floor(Math.random() * 10000);
+  return `${prefix}+${ts}-${rand}@example.com`;
 }

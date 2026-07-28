@@ -10,25 +10,35 @@ type VoucherFixtures = {
   summaryPage: summaryPage;
   paymentPage: paymentPage;
   successPage: successPage;
-  footerPage:  footerPage;
-  settleDelay: void;
+  footerPage: footerPage;
+
 };
 
-// This was added to help identify server errors. 
 export const test = base.extend<VoucherFixtures>({
   page: async ({ page }, use) => {
     const serverErrors: string[] = [];
 
+    // Log ANY non-success HTTP response (400–599)
     page.on('response', (response) => {
-      if (response.status() >= 500) {
-        serverErrors.push(`${response.status()} ${response.url()}`);
+      const status = response.status();
+      if (status < 200 || status >= 400) {
+        serverErrors.push(`${status} ${response.url()}`);
       }
+    });
+
+    // Log failures
+    page.on('requestfailed', (request) => {
+      serverErrors.push(
+        `FAILED ${request.url()} — ${request.failure()?.errorText}`
+      );
     });
 
     await use(page);
 
     if (serverErrors.length > 0) {
-      console.warn(`Demo environment returned server errors:\n${serverErrors.join('\n')}`);
+      console.warn(
+        `Demo environment returned errors:\n${serverErrors.join('\n')}`
+      );
     }
   },
 
@@ -36,16 +46,8 @@ export const test = base.extend<VoucherFixtures>({
   summaryPage: async ({ page }, use) => use(new summaryPage(page)),
   paymentPage: async ({ page }, use) => use(new paymentPage(page)),
   successPage: async ({ page }, use) => use(new successPage(page)),
-  footerPage: async ({ page }, use)  => use(new footerPage(page)),
+  footerPage: async ({ page }, use) => use(new footerPage(page)),
 
-  // The environment returns intermittent HTTP 500s under sequential load, so we pause briefly between tests.
-  settleDelay: [
-    async ({ }, use) => {
-      await use();
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-    },
-    { auto: true },
-  ],
 });
 
 export { expect } from '@playwright/test';
