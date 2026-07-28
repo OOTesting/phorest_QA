@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  playwright-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vouchers-playwright
+    volumes:
+      - .:/app
+      - ./playwright-report:/app/playwright-report
+    environment:
+      - ENV=local
+    command: ["npx", "playwright", "test"]
